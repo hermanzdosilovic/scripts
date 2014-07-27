@@ -14,18 +14,18 @@ export JACOCO_DOWNLOAD_LINK=http://search.maven.org/remotecontent?filepath=org/j
 export MOCKITO_DOWNLOAD_LINK=https://mockito.googlecode.com/files/mockito-all-1.9.5.jar
 
 # setup destination
-export DEST=/usr/local	# destination where all tools will be installed
+export DEST=/usr/local/bin	# destination where all tools will be installed
 export DIR_INIT=$(pwd)	# desination of all tools before install
-export CONFIG_PATH=~/.profile
+export CONFIG_PATH=~/.profile	# destination where path will be written
 
 export ANT_INIT=apache-ant	# name of apache ant folder
 export M2_INIT=apache-maven	# name of apache maven folder
-export GRADLE_INIT=gradle		# name of gradle folder
+export GRADLE_INIT=gradle	# name of gradle folder
 export CS_INIT=checkstyle	# name of chechstyle folder
 export XALAN_INIT=xalan	# name of xalan folder
 export PMD_INIT=pmd	# name of pmd folder
 export FINDBUGS_INIT=findbugs	# name of findbugs folder
-export JUNIT_INIT=junit.jar	# name of junit jar
+export JUNIT_INIT=junit.jar # name of junit jar
 export HAMCREST_INIT=hamcrest-core.jar	# name of hamcrest jar
 export DIRNAME=junit	# name of folder where $HAMCREST_INIT and $JUNIT_INIT will be installed
 export JACOCO_INIT=jacoco	# name of jacoco folder

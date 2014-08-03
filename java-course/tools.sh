@@ -12,6 +12,7 @@ export JUNIT_DOWNLOAD_LINK=http://search.maven.org/remotecontent?filepath=junit/
 export HAMCREST_DOWNLOAD_LINK=http://search.maven.org/remotecontent?filepath=org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar
 export JACOCO_DOWNLOAD_LINK=http://search.maven.org/remotecontent?filepath=org/jacoco/jacoco/0.7.1.201405082137/jacoco-0.7.1.201405082137.zip
 export MOCKITO_DOWNLOAD_LINK=https://mockito.googlecode.com/files/mockito-all-1.9.5.jar
+export TOMCAT_DOWNLOAD_LINK=http://ftp.carnet.hr/misc/apache/tomcat/tomcat-8/v8.0.9/bin/apache-tomcat-8.0.9.tar.gz
 
 # setup destination
 export DEST=/usr/local/bin	# destination where all tools will be installed
@@ -31,6 +32,7 @@ export DIRNAME=junit	# name of folder where $HAMCREST_INIT and $JUNIT_INIT will 
 export JACOCO_INIT=jacoco	# name of jacoco folder
 export MOCKITO_INIT=mockito.jar	# name of mockito jar
 export MOCKITO_DIR=mockito	# name of folder where mockito will be installed
+export TOMCAT_INIT=apache-tomcat # name of apache tomcat folder
 
 # download and extract apache-ant
 wget $ANT_DOWNLOAD_LINK -O $ANT_INIT.tar.gz
@@ -87,29 +89,40 @@ unzip $JACOCO_INIT.zip -d $JACOCO_INIT
 # download mocikto
 wget $MOCKITO_DOWNLOAD_LINK -O $MOCKITO_INIT
 
+# download and extract apache-tomcat
+wget $TOMCAT_DOWNLOAD_LINK -O $TOMCAT_INIT.tar.gz
+mkdir $TOMCAT_INIT
+tar -xvf $TOMCAT_INIT.tar.gz -C $TOMCAT_INIT --strip-components 1
+
 # create destination directory - no error if exsist
 mkdir -p $DEST
 
 # setting up apache-ant
 sudo cp -rf $DIR_INIT/$ANT_INIT $DEST
 export ANT_HOME=$DEST/$ANT_INIT
+echo "# apache-ant" >> $CONFIG_PATH
 echo "export ANT_HOME=$DEST/$ANT_INIT" >> $CONFIG_PATH
 export PATH=$ANT_HOME/bin:$PATH
-echo "export PATH=$ANT_HOME/bin:$PATH" >> $CONFIG_PATH
+echo 'export PATH=$PATH:$ANT_HOME/bin' >> $CONFIG_PATH
+echo "" >> $CONFIG_PATH
 
 # setting up apache-maven
 sudo cp -rf $DIR_INIT/$M2_INIT $DEST
 export M2_HOME=$DEST/$M2_INIT
+echo "# apache-maven" >> $CONFIG_PATH
 echo "export M2_HOME=$DEST/$M2_INIT" >> $CONFIG_PATH
 export PATH=$M2_HOME/bin:$PATH
-echo "export PATH=$M2_HOME/bin:$PATH" >> $CONFIG_PATH
+echo 'export PATH=$PATH:$M2_HOME/bin' >> $CONFIG_PATH
+echo "" >> $CONFIG_PATH
 
 # setting up gradle
 sudo cp -rf $DIR_INIT/$GRADLE_INIT $DEST
 export GRADLE_HOME=$DEST/$GRADLE_INIT
+echo "# gradle" >> $CONFIG_PATH
 echo "export GRADLE_HOME=$DEST/$GRADLE_INIT" >> $CONFIG_PATH
 export PATH=$GRADLE_HOME/bin:$PATH
-echo "export PATH=$GRADLE_HOME/bin:$PATH" >> $CONFIG_PATH
+echo 'export PATH=$PATH:$GRADLE_HOME/bin' >> $CONFIG_PATH
+echo "" >> $CONFIG_PATH
 
 # setting up checkstyle
 sudo cp -rf $DIR_INIT/$CS_INIT $DEST
@@ -123,9 +136,11 @@ sudo cp -rf $DIR_INIT/$PMD_INIT $DEST
 # setting up findbugs
 sudo cp -rf $DIR_INIT/$FINDBUGS_INIT $DEST
 export FINDBUGS_HOME=$DEST/$FINDBUGS_INIT
+echo "# findbugs" >> $CONFIG_PATH
 echo "export FINDBUGS_HOME=$DEST/$FINDBUGS_INIT" >> $CONFIG_PATH
 export PATH=$FINDBUGS_HOME/bin:$PATH
-echo "export PATH=$FINDBUGS_HOME/bin:$PATH" >> $CONFIG_PATH
+echo 'export PATH=$PATH:$FINDBUGS_HOME/bin' >> $CONFIG_PATH
+echo "" >> $CONFIG_PATH
 
 # setting up junit
 sudo mkdir $DEST/$DIRNAME
@@ -142,6 +157,16 @@ sudo cp -rf $DIR_INIT/$JACOCO_INIT $DEST
 sudo mkdir $DEST/$MOCKITO_DIR
 sudo cp $DIR_INIT/$MOCKITO_INIT $DEST/$MOCKITO_DIR
 sudo chmod +x $DEST/$MOCKITO_DIR/$MOCKITO_INIT
+
+# setting up apache-tomcat
+sudo cp -rf $DIR_INIT/$TOMCAT_INIT $DEST
+export CATALINA_HOME=$DEST/$TOMCAT_INIT
+echo "# apache-tomcat" >> $CONFIG_PATH
+echo "export CATALINA_HOME=$DEST/$TOMCAT_INIT" >> $CONFIG_PATH
+export PATH=$CATALINA_HOME/bin:$PATH
+echo 'export PATH=$PATH:$CATALINA_HOME/bin' >> $CONFIG_PATH
+echo "" >> $CONFIG_PATH
+sudo chown -R $USER $CATALINA_HOME
 
 # remove unused ant
 rm -rf $ANT_INIT
@@ -181,6 +206,10 @@ rm $JACOCO_INIT.zip
 
 # remove unused mockito
 rm $MOCKITO_INIT
+
+# remove unused tomcat
+rm -rf $TOMCAT_INIT
+rm $TOMCAT_INIT.tar.gz
 
 echo "--- Tools are now installed in $DEST and paths are written in $CONFIG_PATH ---"
 echo "--- All done ---"

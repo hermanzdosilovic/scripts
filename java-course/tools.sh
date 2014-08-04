@@ -1,38 +1,38 @@
 #!/bin/bash
 
 # setup download links
-export ANT_DOWNLOAD_LINK=http://ftp.carnet.hr/misc/apache//ant/binaries/apache-ant-1.9.4-bin.tar.gz
-export M2_DOWNLOAD_LINK=http://ftp.carnet.hr/misc/apache/maven/maven-3/3.2.2/binaries/apache-maven-3.2.2-bin.tar.gz
-export GRADLE_DOWNLOAD_LINK=https://services.gradle.org/distributions/gradle-2.0-all.zip
-export CS_DOWNLOAD_LINK=http://sourceforge.net/projects/checkstyle/files/latest/download?source=files
-export XALAN_DOWNLOAD_LINK=http://archive.apache.org/dist/xml/xalan-j/xalan-j_2_7_1-bin.zip
-export PMD_DOWNLOAD_LINK=http://sourceforge.net/projects/pmd/files/pmd/5.1.2/pmd-bin-5.1.2.zip/download
-export FINDBUGS_DOWNLOAD_LINK=http://sourceforge.net/projects/findbugs/files/findbugs/3.0.0/findbugs-3.0.0.tar.gz/download
-export JUNIT_DOWNLOAD_LINK=http://search.maven.org/remotecontent?filepath=junit/junit/4.11/junit-4.11.jar
-export HAMCREST_DOWNLOAD_LINK=http://search.maven.org/remotecontent?filepath=org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar
-export JACOCO_DOWNLOAD_LINK=http://search.maven.org/remotecontent?filepath=org/jacoco/jacoco/0.7.1.201405082137/jacoco-0.7.1.201405082137.zip
-export MOCKITO_DOWNLOAD_LINK=https://mockito.googlecode.com/files/mockito-all-1.9.5.jar
-export TOMCAT_DOWNLOAD_LINK=http://ftp.carnet.hr/misc/apache/tomcat/tomcat-8/v8.0.9/bin/apache-tomcat-8.0.9.tar.gz
+ANT_DOWNLOAD_LINK=http://ftp.carnet.hr/misc/apache//ant/binaries/apache-ant-1.9.4-bin.tar.gz
+M2_DOWNLOAD_LINK=http://ftp.carnet.hr/misc/apache/maven/maven-3/3.2.2/binaries/apache-maven-3.2.2-bin.tar.gz
+GRADLE_DOWNLOAD_LINK=https://services.gradle.org/distributions/gradle-2.0-all.zip
+CS_DOWNLOAD_LINK=http://sourceforge.net/projects/checkstyle/files/latest/download?source=files
+XALAN_DOWNLOAD_LINK=http://archive.apache.org/dist/xml/xalan-j/xalan-j_2_7_1-bin.zip
+PMD_DOWNLOAD_LINK=http://sourceforge.net/projects/pmd/files/pmd/5.1.2/pmd-bin-5.1.2.zip/download
+FINDBUGS_DOWNLOAD_LINK=http://sourceforge.net/projects/findbugs/files/findbugs/3.0.0/findbugs-3.0.0.tar.gz/download
+JUNIT_DOWNLOAD_LINK=http://search.maven.org/remotecontent?filepath=junit/junit/4.11/junit-4.11.jar
+HAMCREST_DOWNLOAD_LINK=http://search.maven.org/remotecontent?filepath=org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar
+JACOCO_DOWNLOAD_LINK=http://search.maven.org/remotecontent?filepath=org/jacoco/jacoco/0.7.1.201405082137/jacoco-0.7.1.201405082137.zip
+MOCKITO_DOWNLOAD_LINK=https://mockito.googlecode.com/files/mockito-all-1.9.5.jar
+TOMCAT_DOWNLOAD_LINK=http://ftp.carnet.hr/misc/apache/tomcat/tomcat-8/v8.0.9/bin/apache-tomcat-8.0.9.tar.gz
 
 # setup destination
-export DEST=/usr/local/bin	# destination where all tools will be installed
-export DIR_INIT=$(pwd)	# desination of all tools before install
-export CONFIG_PATH=~/.profile	# destination where path will be written
+DEST=/usr/local/bin	# destination where all tools will be installed
+DIR_INIT=$(pwd)	# desination of all tools before install
+CONFIG_PATH=~/.profile	# destination where path will be written
 
-export ANT_INIT=apache-ant	# name of apache ant folder
-export M2_INIT=apache-maven	# name of apache maven folder
-export GRADLE_INIT=gradle	# name of gradle folder
-export CS_INIT=checkstyle	# name of chechstyle folder
-export XALAN_INIT=xalan	# name of xalan folder
-export PMD_INIT=pmd	# name of pmd folder
-export FINDBUGS_INIT=findbugs	# name of findbugs folder
-export JUNIT_INIT=junit.jar # name of junit jar
-export HAMCREST_INIT=hamcrest-core.jar	# name of hamcrest jar
-export DIRNAME=junit	# name of folder where $HAMCREST_INIT and $JUNIT_INIT will be installed
-export JACOCO_INIT=jacoco	# name of jacoco folder
-export MOCKITO_INIT=mockito.jar	# name of mockito jar
-export MOCKITO_DIR=mockito	# name of folder where mockito will be installed
-export TOMCAT_INIT=apache-tomcat # name of apache tomcat folder
+ANT_INIT=apache-ant	# name of apache ant folder
+M2_INIT=apache-maven	# name of apache maven folder
+GRADLE_INIT=gradle	# name of gradle folder
+CS_INIT=checkstyle	# name of chechstyle folder
+XALAN_INIT=xalan	# name of xalan folder
+PMD_INIT=pmd	# name of pmd folder
+FINDBUGS_INIT=findbugs	# name of findbugs folder
+JUNIT_INIT=junit.jar # name of junit jar
+HAMCREST_INIT=hamcrest-core.jar	# name of hamcrest jar
+DIRNAME=junit	# name of folder where $HAMCREST_INIT and $JUNIT_INIT will be installed
+JACOCO_INIT=jacoco	# name of jacoco folder
+MOCKITO_INIT=mockito.jar	# name of mockito jar
+MOCKITO_DIR=mockito	# name of folder where mockito will be installed
+TOMCAT_INIT=apache-tomcat # name of apache tomcat folder
 
 # download and extract apache-ant
 wget $ANT_DOWNLOAD_LINK -O $ANT_INIT.tar.gz
@@ -47,7 +47,7 @@ tar -xvf $M2_INIT.tar.gz -C $M2_INIT --strip-components 1
 # download and extract gradle
 wget $GRADLE_DOWNLOAD_LINK -O $GRADLE_INIT.zip
 unzip $GRADLE_INIT.zip -d $GRADLE_INIT-tmp
-export TMP_DIR=$(ls $GRADLE_INIT-tmp)
+TMP_DIR=$(ls $GRADLE_INIT-tmp)
 mv $GRADLE_INIT-tmp/$TMP_DIR $GRADLE_INIT-tmp/$GRADLE_INIT
 mv $GRADLE_INIT-tmp/$GRADLE_INIT .
 rm -rf $GRADLE_INIT-tmp
@@ -68,7 +68,7 @@ rm -rf $XALAN_INIT-tmp
 # download and extract pmd
 wget $PMD_DOWNLOAD_LINK -O $PMD_INIT.zip
 unzip $PMD_INIT.zip -d $PMD_INIT-tmp
-export TMP_DIR=$(ls $PMD_INIT-tmp)
+TMP_DIR=$(ls $PMD_INIT-tmp)
 mv $PMD_INIT-tmp/$TMP_DIR $PMD_INIT-tmp/$PMD_INIT
 mv $PMD_INIT-tmp/$PMD_INIT .
 rm -rf $PMD_INIT-tmp
@@ -103,8 +103,7 @@ export ANT_HOME=$DEST/$ANT_INIT
 echo "# apache-ant" >> $CONFIG_PATH
 echo "export ANT_HOME=$DEST/$ANT_INIT" >> $CONFIG_PATH
 export PATH=$ANT_HOME/bin:$PATH
-echo 'export PATH=$PATH:$ANT_HOME/bin' >> $CONFIG_PATH
-echo "" >> $CONFIG_PATH
+echo -e 'export PATH=$PATH:$ANT_HOME/bin\n' >> $CONFIG_PATH
 
 # setting up apache-maven
 sudo cp -rf $DIR_INIT/$M2_INIT $DEST
@@ -112,8 +111,7 @@ export M2_HOME=$DEST/$M2_INIT
 echo "# apache-maven" >> $CONFIG_PATH
 echo "export M2_HOME=$DEST/$M2_INIT" >> $CONFIG_PATH
 export PATH=$M2_HOME/bin:$PATH
-echo 'export PATH=$PATH:$M2_HOME/bin' >> $CONFIG_PATH
-echo "" >> $CONFIG_PATH
+echo -e 'export PATH=$PATH:$M2_HOME/bin\n' >> $CONFIG_PATH
 
 # setting up gradle
 sudo cp -rf $DIR_INIT/$GRADLE_INIT $DEST
@@ -121,8 +119,7 @@ export GRADLE_HOME=$DEST/$GRADLE_INIT
 echo "# gradle" >> $CONFIG_PATH
 echo "export GRADLE_HOME=$DEST/$GRADLE_INIT" >> $CONFIG_PATH
 export PATH=$GRADLE_HOME/bin:$PATH
-echo 'export PATH=$PATH:$GRADLE_HOME/bin' >> $CONFIG_PATH
-echo "" >> $CONFIG_PATH
+echo =e 'export PATH=$PATH:$GRADLE_HOME/bin\n' >> $CONFIG_PATH
 
 # setting up checkstyle
 sudo cp -rf $DIR_INIT/$CS_INIT $DEST
@@ -139,8 +136,7 @@ export FINDBUGS_HOME=$DEST/$FINDBUGS_INIT
 echo "# findbugs" >> $CONFIG_PATH
 echo "export FINDBUGS_HOME=$DEST/$FINDBUGS_INIT" >> $CONFIG_PATH
 export PATH=$FINDBUGS_HOME/bin:$PATH
-echo 'export PATH=$PATH:$FINDBUGS_HOME/bin' >> $CONFIG_PATH
-echo "" >> $CONFIG_PATH
+echo -e 'export PATH=$PATH:$FINDBUGS_HOME/bin\n' >> $CONFIG_PATH
 
 # setting up junit
 sudo mkdir $DEST/$DIRNAME
@@ -164,8 +160,7 @@ export CATALINA_HOME=$DEST/$TOMCAT_INIT
 echo "# apache-tomcat" >> $CONFIG_PATH
 echo "export CATALINA_HOME=$DEST/$TOMCAT_INIT" >> $CONFIG_PATH
 export PATH=$CATALINA_HOME/bin:$PATH
-echo 'export PATH=$PATH:$CATALINA_HOME/bin' >> $CONFIG_PATH
-echo "" >> $CONFIG_PATH
+echo -e 'export PATH=$PATH:$CATALINA_HOME/bin\n' >> $CONFIG_PATH
 sudo chown -R $USER $CATALINA_HOME
 
 # remove unused ant

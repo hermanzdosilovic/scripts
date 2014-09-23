@@ -82,7 +82,7 @@ tar -xvf $FINDBUGS_INIT.tar.gz -C $FINDBUGS_INIT --strip-components 1
 wget $JUNIT_DOWNLOAD_LINK -O $JUNIT_INIT
 wget $HAMCREST_DOWNLOAD_LINK -O $HAMCREST_INIT
 
-# download anx extract jacoco
+# download and extract jacoco
 wget $JACOCO_DOWNLOAD_LINK -O $JACOCO_INIT.zip
 unzip $JACOCO_INIT.zip -d $JACOCO_INIT
 

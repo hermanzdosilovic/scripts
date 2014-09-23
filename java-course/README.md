@@ -4,7 +4,7 @@ Java Course
 
 On the course we needed to use several tools for [code analysis](http://en.wikipedia.org/wiki/List_of_tools_for_static_code_analysis), few for [TDD](http://en.wikipedia.org/wiki/Test-driven_development) and few for web application development.
 
-After the course I swiched my OS few times and every time I found myself downloading and setuping these tools. And after my third setup by hand it became a pain in the butt, so I decided to write a little bash script that will download and setup these scripts for me.
+After the course I swiched my OS few times and every time I found myself downloading and setuping these tools. And after my third setup by hand it became a pain in the butt, so I decided to write a little bash script that will download and setup these tools for me.
 
 ###Attention: OS X and Linux only!
 
@@ -33,19 +33,31 @@ This script includes following tools:
 
 How to run
 ----------
-First you need to get this project. To get this project you have two options:
+Please follow these steps:
 
-* [Download](https://github.com/hermanzdosilovic/scripts/archive/master.zip) project to your computer.
-* Clone git repository with this command:
+1. Get the project
+2. Open *java-course* folder in your terminal
+3. Run the script
+4. Logout and login again
+
+###1. Get the project
+
+ [Download](https://github.com/hermanzdosilovic/scripts/archive/master.zip) project to your computer.
+
+or
+
+Clone git repository with this command:
 	
 		git clone https://github.com/hermanzdosilovic/scripts.git
 
-If you downloaded project make sure you extract that .zip file that you got. If you cloned repository you do not have to do that.
+If you downloaded project make sure that you extract .zip file that you got. If you cloned repository you do not have to do that.
 
-Now you need to open *java-course* folder in your terminal. To do that make following:
+###2. Open *java-course* folder in your terminal
 
 1. Open project in your terminal. I now assume that you can see *java-course* folder when you type `ls`.
 2. Type `cd java-course` to move yourself into *java-course* folder.
+
+###3. Run the script
 
 I now assume that you are in *java-course* folder. If so, run this commnad to start script:
 
@@ -55,21 +67,39 @@ I now assume that you are in *java-course* folder. If so, run this commnad to st
 **You will need to enter your administrator password to run this script.**
 
 The script will start downloading and extracting your tools. It will take a few minutes.
+###4. Logout and login again
+Just do it. :)
 
 Important notes
 ---------------
 Tools will be installed in `/usr/local/bin` and the paths that every tool needs to work propertly will be written in `~/.profile`.
 
-If you want you can change this default locations. To change you just need to edit two variables:
+If you want you can change this default locations.
 
-* [`DEST`](https://github.com/hermanzdosilovic/scripts/blob/master/java-course/tools.sh#L18) variable that specifies where tools will be installed.
-* [`CONFIG_PATH`](https://github.com/hermanzdosilovic/scripts/blob/master/java-course/tools.sh#L20) variable that specifies where paths will be written.
+* If you want to change location where tools will be installed, edit:
+
+	* [`DEST`](https://github.com/hermanzdosilovic/scripts/blob/master/java-course/tools.sh#L18) variable that specifies where tools will be installed.
+* If you want to change location where paths will be written, edit: 
+
+	* [`CONFIG_PATH`](https://github.com/hermanzdosilovic/scripts/blob/master/java-course/tools.sh#L20) variable that specifies where paths will be written.
 
 For additional changes that you would like to make in your installation package, please check the [`tools.sh`](https://github.com/hermanzdosilovic/scripts/blob/master/java-course/tools.sh) for more information.
 
+###Skip some tools
+If you want you can skip installing some tools by commenting specific lines of the script. For example, if you do not want to install [Gradle 2.0](http://www.gradle.org/) comment following lines:
+
+* [Setting up a download link](https://github.com/hermanzdosilovic/scripts/blob/master/java-course/tools.sh#L6)
+* [Downloading and extracting gradle](https://github.com/hermanzdosilovic/scripts/blob/master/java-course/tools.sh#L47-L53)
+* [Setting up gradle](https://github.com/hermanzdosilovic/scripts/blob/master/java-course/tools.sh#L116-L122)
+* [Remove unused gradle files](https://github.com/hermanzdosilovic/scripts/blob/master/java-course/tools.sh#L116-L122)
+
+The same logic applies to other tools. :)
+
 Testing Machines
 ----------------
-* Ubuntu
-* Linux Mint
-* OS X
+I have tested this script on these machines:
+
+* Ubuntu 12.04, 12.10, 13.04, 13.10, 14.04
+* Linux Mint 16, 17
+* OS X 10.9.5
 

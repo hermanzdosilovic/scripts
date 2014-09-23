@@ -7,7 +7,7 @@ What can you find here?
 -----------------------
 * [java-course](https://github.com/hermanzdosilovic/scripts/tree/master/java-course) - Java Course tools setup
 
-As I will work on my projects I will add other scripts that I made.
+As I will work on my projects I will add other scripts that I make.
 
 License
 -------

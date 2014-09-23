@@ -1,6 +1,6 @@
 Java Course
 ===========
-[Java Course](http://java.zemris.fer.hr/) originally called *Osnove programskog jezika Java* is a great Java course that I attended in my second semester on [Faculty of Electrical Engineering and Computing (FER)](http://www.fer.unizg.hr/en) in [Zagreb](http://en.wikipedia.org/wiki/Zagreb).
+[Java Course](http://java.zemris.fer.hr/) originally called *Osnove programskog jezika Java* is a great Java course that I attended in my second semester at [Faculty of Electrical Engineering and Computing (FER)](http://www.fer.unizg.hr/en) in [Zagreb](http://en.wikipedia.org/wiki/Zagreb).
 
 On the course we needed to use several tools for [code analysis](http://en.wikipedia.org/wiki/List_of_tools_for_static_code_analysis), few for [TDD](http://en.wikipedia.org/wiki/Test-driven_development) and few for web application development.
 
@@ -11,7 +11,7 @@ After the course I swiched my OS few times and every time I found myself downloa
 Who is this for
 ----------------
 * For every future student who will attend the same Java Course as I did.
-* For everybody who need to use these tools **now** and does not want to do it by hand.
+* For everybody who needs to use these tools **now** and does not want to do it by hand.
 * For me. :P
 
 What can you install with this script
@@ -42,7 +42,7 @@ Please follow these steps:
 
 ###1. Get the project
 
- [Download](https://github.com/hermanzdosilovic/scripts/archive/master.zip) project to your computer.
+ [Download](https://github.com/hermanzdosilovic/scripts/archive/master.zip) the project to your computer.
 
 or
 
@@ -50,16 +50,16 @@ Clone git repository with this command:
 	
 		git clone https://github.com/hermanzdosilovic/scripts.git
 
-If you downloaded project make sure that you extract .zip file that you got. If you cloned repository you do not have to do that.
+If you downloaded the project make sure that you extract .zip file that you got. If you cloned repository you do not have to do that.
 
 ###2. Open *java-course* folder in your terminal
 
 1. Open project in your terminal. I now assume that you can see *java-course* folder when you type `ls`.
-2. Type `cd java-course` to move yourself into *java-course* folder.
+2. Type `cd java-course` to position yourself into *java-course* folder.
 
 ###3. Run the script
 
-I now assume that you are in *java-course* folder. If so, run this commnad to start script:
+I now assume that you are in *java-course* folder. If so, run this command to start script:
 
 	sudo ./tools.sh
 
@@ -72,7 +72,7 @@ Just do it. :)
 
 Important notes
 ---------------
-Tools will be installed in `/usr/local/bin` and the paths that every tool needs to work propertly will be written in `~/.profile`.
+Tools will be installed in `/usr/local/bin` and the paths that every tool needs to work properly will be written in `~/.profile`.
 
 If you want you can change this default locations.
 

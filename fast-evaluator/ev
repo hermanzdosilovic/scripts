@@ -9,6 +9,7 @@ name=${source%.*}
 # if no file found then cannot continue
 if [ "$source" == "" ]; then
     echo "ev: no file for execution"
+    echo
     exit
 fi
 

@@ -72,6 +72,8 @@ If you have expected output data for some input data, you need to put them also 
 
 How to install it?
 ------------------
+####OS X and Linux only.
+
 Follow this steps:
 
 1. Get this project. You can do it in two ways:

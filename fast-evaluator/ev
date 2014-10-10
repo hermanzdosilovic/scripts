@@ -12,13 +12,14 @@ if [ "$source" == "" ]; then
     exit
 fi
 
+printf " - ${source} -\n"
+
 # if there is no 'test' directory
 if [ ! -d test ]; then
-    echo "ev: there is no directory 'test'"
-    exit
+    echo "ev: directory 'test' does not exists"
+    echo "- created 'test' directory"
+    mkdir test
 fi
-
-printf " - ${source} -\n"
 
 # compile source
 if [ "$extension" == "c" ]; then
@@ -30,14 +31,21 @@ fi
 # if compile errors occured then cannot continue
 if [ "$errors" != "" ]; then
     echo "$errors"
-    echo "ev: check compile errors"
+    printf "ev: check compile errors\n\n"
     exit
 fi
 
 # if check if tests exists
 tests=$(ls test/${name}.*.in 2>/dev/null)
 if [ "$tests" == "" ]; then
-    echo "ev: expected test/${name}.*.in"
+    echo "ev: test data does not exsist"
+    for case in {1..6}; do
+        touch test/${name}.$case.in
+        touch test/${name}.$case.out
+        echo "- created test/${name}.$case.in"
+        echo "- created test/${name}.$case.out"
+    done
+    echo
     exit
 fi
 

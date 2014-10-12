@@ -1,0 +1,16 @@
+#!/bin/bash
+if [ -z "$REPO" ]; then
+    echo "Export you paths in REPO environment variable."
+    exit
+fi
+
+for directory in ${REPO//:/ }; do
+    echo " - $directory - "
+    if [ -d "$directory" ]; then
+        cd $directory
+        git pull
+    else
+        echo "Directory does not exists."
+    fi
+    echo
+done

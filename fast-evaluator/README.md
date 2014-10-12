@@ -62,7 +62,7 @@ If you have `<name>.c` or `<name>.cpp`, then your input data **MUST** be of a fo
 When you run `ev`:
 
 	$ ev
-	
+
 in your `my-solutions` folder. It will try to find last modified *.c* or *.cpp* file. When it finds one, it will compile it with corresponding compiler and it will make output file `a.out`. After that it will try to find all input data of form `<name>.<identifier>.in` in `test` directory and it will present to you output of your program. As you can see, you do not have to worry about running test cases, `ev` will do it for you.
 
 ###Output data
@@ -78,26 +78,26 @@ Follow this steps:
 
 1. Get this project. You can do it in two ways:
 	* Clone git repository
-		
+
 			$ git clone  https://github.com/hermanzdosilovic/scripts
-	
+
 	* Or download zip [file](https://github.com/hermanzdosilovic/scripts/archive/master.zip)
 		* You now need to extract that .zip file
 2. Open *java-course* folder in your terminal.
 3. Position yourself into *fast-evaluator* folder:
- 
+
 		$ cd fast-evaluator
 4. Make `ev` executable:
 
 		$ chmod +x ev
-		
-5. Copy `ev` in some **/bin* directory that is included in your `$PATH`. For example:
+
+5. Copy `ev` in some directory that is included in your `$PATH`. For example:
 
 		$ cp ev /usr/local/bin
-	
 
 
-	
 
 
- 
+
+
+

@@ -6,7 +6,9 @@ Scripts for specific tasks that I do not like to repeat by hand.
 What can you find here?
 -----------------------
 * [java-course](https://github.com/hermanzdosilovic/scripts/tree/master/java-course) - Java Course tools setup
-* [fast-evaluator](https://github.com/hermanzdosilovic/scripts/tree/master/fast-evaluator) - Evaluate tasks fast and improve your competitive programming workflow 
+* [fast-evaluator](https://github.com/hermanzdosilovic/scripts/tree/master/fast-evaluator) - Evaluate tasks fast and improve 
+your competitive programming workflow 
+* [git-helpers](https://github.com/hermanzdosilovic/scripts/tree/master/git-helpers) - Scripts for helping in git tasks
 
 As I will work on my projects I will add other scripts that I make.
 

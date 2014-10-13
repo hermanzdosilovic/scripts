@@ -1,4 +1,11 @@
 #!/bin/bash
+
+# specify your C compiler
+GCC=gcc
+
+# specify your C++ compiler
+GPP=g++
+
 # find last modified .c or .cpp file
 source=$(ls -tr *.{c,cpp} 2>/dev/null | tail -1)
 # get file extension
@@ -38,9 +45,9 @@ fi
 
 # compile source
 if [ "$extension" == "c" ]; then
-    errors=$(gcc ${source} 2>&1 > /dev/null)
+    errors=$($GCC ${source} 2>&1 > /dev/null)
 else
-    errors=$(g++ ${source} 2>&1 > /dev/null)
+    errors=$($GPP ${source} 2>&1 > /dev/null)
 fi
 
 # if compile errors occured then cannot continue

@@ -83,7 +83,7 @@ Follow this steps:
 
 	* Or download zip [file](https://github.com/hermanzdosilovic/scripts/archive/master.zip)
 		* You now need to extract that .zip file
-2. Open *java-course* folder in your terminal.
+2. Open *fast-evaluator* folder in your terminal.
 3. Position yourself into *fast-evaluator* folder:
 
 		$ cd fast-evaluator

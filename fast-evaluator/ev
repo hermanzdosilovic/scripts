@@ -7,7 +7,7 @@ GCC=gcc
 GPP=g++
 
 # find last modified .c or .cpp file
-source=$(ls -tr *.{c,cpp} 2>/dev/null | tail -1)
+source=$(ls -tr *.{c,cpp,rb} 2>/dev/null | tail -1)
 # get file extension
 extension=${source##*.}
 # get file name
@@ -46,7 +46,7 @@ fi
 # compile source
 if [ "$extension" == "c" ]; then
     errors=$($GCC ${source} 2>&1 > /dev/null)
-else
+elif [ "$extension" == "cpp" ]; then
     errors=$($GPP ${source} 2>&1 > /dev/null)
 fi
 
@@ -65,7 +65,11 @@ for fin in test/${name}.*.in; do
     # if outout file exists compare output
     if [ -a $fout ]; then
         foutuser=${fin%.*}.user.out
-        ./a.out < $fin > $foutuser
+        if [ -a ./a.out ]; then
+            ./a.out < $fin > $foutuser
+        else
+            cat $fin | ruby $source > $foutuser
+        fi
         cmp -s $fout $foutuser
         if [ $? -eq 1 ]; then
             echo "WRONG"
@@ -74,9 +78,18 @@ for fin in test/${name}.*.in; do
             echo "CORRECT"
         fi
     else
-        ./a.out < $fin
+        if [ -a ./a.out ]; then
+            ./a.out < $fin
+        else
+            cat $fin | ruby $source
+        fi
     fi
+
+        # ./a.out < $fin
+
     echo
 done
 
-rm a.out
+if [ -a ./a.out ]; then
+    rm a.out
+fi

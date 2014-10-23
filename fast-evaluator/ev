@@ -43,6 +43,11 @@ if [ "$tests" == "" ]; then
     exit
 fi
 
+# remove some old a.out if exists
+if [ -a ./a.out ]; then
+    rm a.out
+fi
+
 # compile source
 if [ "$extension" == "c" ]; then
     errors=$($GCC ${source} 2>&1 > /dev/null)
@@ -84,12 +89,10 @@ for fin in test/${name}.*.in; do
             cat $fin | ruby $source
         fi
     fi
-
-        # ./a.out < $fin
-
     echo
 done
 
+# remove created a.out if exists
 if [ -a ./a.out ]; then
     rm a.out
 fi

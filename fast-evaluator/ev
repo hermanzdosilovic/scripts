@@ -1,13 +1,25 @@
 #!/bin/bash
 
+
+# user settings
+
 # specify your C compiler
 GCC=gcc
 
 # specify your C++ compiler
 GPP=g++
 
+# specify your Ruby interpreter
+RUBY=ruby
+
+# specify your Python interpreter
+PYTHON=python
+
+# end of user settings
+
+
 # find last modified .c or .cpp file
-source=$(ls -tr *.{c,cpp,rb} 2>/dev/null | tail -1)
+source=$(ls -tr *.{c,cpp,rb,py} 2> /dev/null | tail -n -1)
 # get file extension
 extension=${source##*.}
 # get file name
@@ -15,84 +27,82 @@ name=${source%.*}
 
 # if no file found then cannot continue
 if [ "$source" == "" ]; then
-    echo "ev: no file for execution"
-    echo
-    exit
+  printf "ev: no file for execution\n\n"
+  exit
 fi
 
-printf " - ${source} -\n"
+printf " - $source -\n"
 
 # if there is no 'test' directory
-if [ ! -d test ]; then
-    echo "ev: directory 'test' does not exists"
-    echo "- created 'test' directory"
-    mkdir test
+if [ ! -d "test/$name/" ]; then
+  echo "ev: directory 'test/$name/' does not exist"
+  echo "- created 'test/$name/' directory"
+  mkdir -p "test/$name"
 fi
 
 # if check if tests exists
-tests=$(ls test/${name}.*.in 2>/dev/null)
+tests=$(ls "test/$name/$name".*.in 2> /dev/null)
 if [ "$tests" == "" ]; then
-    echo "ev: test data does not exsist"
-    for case in {1..6}; do
-        touch test/${name}.$case.in
-        touch test/${name}.$case.out
-        echo "- created test/${name}.$case.in"
-        echo "- created test/${name}.$case.out"
-    done
-    echo
-    exit
-fi
-
-# remove some old a.out if exists
-if [ -a ./a.out ]; then
-    rm a.out
+  echo "ev: test data does not exist"
+  for case in {1..2}; do
+    touch "test/$name/$name.$case.in"
+    touch "test/$name/$name.$case.out"
+    echo "- created test/$name/$name.$case.in"
+    echo "- created test/$name/$name.$case.out"
+  done
+  echo
+  exit
 fi
 
 # compile source
 if [ "$extension" == "c" ]; then
-    errors=$($GCC ${source} 2>&1 > /dev/null)
+  errors=$($GCC "$source" -o "$name" 2>&1> /dev/null)
 elif [ "$extension" == "cpp" ]; then
-    errors=$($GPP ${source} 2>&1 > /dev/null)
+  errors=$($GPP "$source" -o "$name" 2>&1> /dev/null)
 fi
 
 # if compile errors occured then cannot continue
 if [ "$errors" != "" ]; then
-    echo "$errors"
-    printf "ev: check compile errors\n\n"
-    exit
+  echo "$errors"
+  printf "ev: check compile errors\n\n"
+  exit
 fi
 
-for fin in test/${name}.*.in; do
-    # from input file make output file with same format
-    fout=${fin%.*}.out
-    echo "* $fin:"
+hasCorrect=true
+for fin in "test/$name/$name".*.in; do
+  # from input file make output file with same format
+  fout=${fin%.*}.out
+  echo "* $fin:"
 
-    # if outout file exists compare output
-    if [ -a $fout ]; then
-        foutuser=${fin%.*}.user.out
-        if [ -a ./a.out ]; then
-            ./a.out < $fin > $foutuser
-        else
-            cat $fin | ruby $source > $foutuser
-        fi
-        cmp -s $fout $foutuser
-        if [ $? -eq 1 ]; then
-            echo "WRONG"
-            echo "check $foutuser for help"
-        else
-            echo "CORRECT"
-        fi
+  # if outout file exists user output is file
+  if [ -a "$fout" ]; then
+    foutuser=${fin%.*}.user.out
+  else
+    foutuser="&1" # user output it stdout
+  fi
+
+  if [ "$extension" == "c" ] || [ "$extension" == "cpp" ]; then
+    ./"$name" < "$fin" >"$foutuser"
+  elif [ "$extension" == "rb" ]; then
+    cat "$fin" | $RUBY "$source" >"$foutuser"
+  else
+    cat "$fin" | $PYTHON "$source" >"$foutuser"
+  fi
+
+  if [ -a "$fout" ]; then
+    cmp -s "$fout" "$foutuser"
+    if [ $? -eq 1 ]; then
+      echo "WRONG"
+      echo "check $foutuser for help"
+      hasCorrect=false
     else
-        if [ -a ./a.out ]; then
-            ./a.out < $fin
-        else
-            cat $fin | ruby $source
-        fi
+      echo "CORRECT"
+      rm "$foutuser"
     fi
-    echo
+  fi
+  echo
 done
 
-# remove created a.out if exists
-if [ -a ./a.out ]; then
-    rm a.out
+if [ $hasCorrect == true ] && ([ "$extension" == "c" ] || [ "$extension" == "cpp" ]); then
+  rm "$name" 2> /dev/null
 fi

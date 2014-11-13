@@ -87,11 +87,37 @@ for fin in "test/$name/$name".*.in; do
   fi
 
   if [ "$extension" == "c" ] || [ "$extension" == "cpp" ]; then
-    ./"$name" < "$fin" > "$foutuser"
+    ./"$name" < "$fin" > "$foutuser" &
   elif [ "$extension" == "rb" ]; then
-    cat "$fin" | $RUBY "$source" > "$foutuser"
+    cat "$fin" | $RUBY "$source" > "$foutuser" &
   else
-    cat "$fin" | $PYTHON "$source" > "$foutuser"
+    cat "$fin" | $PYTHON "$source" > "$foutuser" &
+  fi
+
+  pid=$!
+  START=$(date +%s)
+  tle=false
+  while true; do
+    getPID=$(ps | egrep "^[:space:]*${pid}")
+    if [ "$getPID" != "" ]; then
+      END=$(date +%s)
+      DIFF=$(($END - $START))
+      if [ "$DIFF" -gt "1" ]; then
+        kill -SIGKILL $pid
+        wait $! 2> /dev/null
+        echo "TIME LIMIT EXCEEDED"
+        echo
+        tle=true
+        hasCorrect=false
+        break
+      fi
+    else
+      break
+    fi
+  done
+
+  if [ $tle == true ]; then
+    continue
   fi
 
   if [ -a "$fout" ] && [ -s "$fout" ]; then

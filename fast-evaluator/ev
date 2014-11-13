@@ -35,20 +35,18 @@ printf " - $source -\n"
 
 # if there is no 'test' directory
 if [ ! -d "test/$name/" ]; then
-  echo "ev: directory 'test/$name/' does not exist"
-  echo "- created 'test/$name/' directory"
+  echo "* created test/$name/"
   mkdir -p "test/$name"
 fi
 
 # if check if tests exists
 tests=$(ls "test/$name/$name".*.in 2> /dev/null)
 if [ "$tests" == "" ]; then
-  echo "ev: test data does not exist"
   for case in {1..2}; do
     touch "test/$name/$name.$case.in"
     touch "test/$name/$name.$case.out"
-    echo "- created test/$name/$name.$case.in"
-    echo "- created test/$name/$name.$case.out"
+    echo "* created test/$name/$name.$case.in"
+    echo "* created test/$name/$name.$case.out"
   done
   echo
   exit
@@ -63,8 +61,9 @@ fi
 
 # if compile errors occured then cannot continue
 if [ "$errors" != "" ]; then
+  echo "COMPILATION ERROR"
   echo "$errors"
-  printf "ev: check compile errors\n\n"
+  echo
   exit
 fi
 
@@ -84,25 +83,25 @@ for fin in "test/$name/$name".*.in; do
   if [ -a "$fout" ] && [ -s "$fout" ]; then
     foutuser=${fin%.*}.user.out
   else
-    foutuser="&1" # user output it stdout
+    foutuser="/dev/stdout" # user output it stdout
   fi
 
   if [ "$extension" == "c" ] || [ "$extension" == "cpp" ]; then
-    ./"$name" < "$fin" ">$foutuser"
+    ./"$name" < "$fin" > "$foutuser"
   elif [ "$extension" == "rb" ]; then
-    cat "$fin" | $RUBY "$source" ">$foutuser"
+    cat "$fin" | $RUBY "$source" > "$foutuser"
   else
-    cat "$fin" | $PYTHON "$source" ">$foutuser"
+    cat "$fin" | $PYTHON "$source" > "$foutuser"
   fi
 
   if [ -a "$fout" ] && [ -s "$fout" ]; then
     cmp -s "$fout" "$foutuser"
     if [ $? -eq 1 ]; then
-      echo "WRONG"
-      echo "check $foutuser for help"
+      echo "WRONG ANSWER"
+      echo "ev: check $foutuser for help"
       hasCorrect=false
     else
-      echo "CORRECT"
+      echo "ACCEPTED"
       rm "$foutuser"
     fi
   fi

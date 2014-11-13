@@ -74,22 +74,28 @@ for fin in "test/$name/$name".*.in; do
   fout=${fin%.*}.out
   echo "* $fin:"
 
-  # if outout file exists user output is file
-  if [ -a "$fout" ]; then
+  if [ ! -s "$fin" ]; then
+    echo "ev: file empty and skipped"
+    echo
+    continue
+  fi
+
+  # if output file and is not empty exists user output is file
+  if [ -a "$fout" ] && [ -s "$fout" ]; then
     foutuser=${fin%.*}.user.out
   else
     foutuser="&1" # user output it stdout
   fi
 
   if [ "$extension" == "c" ] || [ "$extension" == "cpp" ]; then
-    ./"$name" < "$fin" >"$foutuser"
+    ./"$name" < "$fin" ">$foutuser"
   elif [ "$extension" == "rb" ]; then
-    cat "$fin" | $RUBY "$source" >"$foutuser"
+    cat "$fin" | $RUBY "$source" ">$foutuser"
   else
-    cat "$fin" | $PYTHON "$source" >"$foutuser"
+    cat "$fin" | $PYTHON "$source" ">$foutuser"
   fi
 
-  if [ -a "$fout" ]; then
+  if [ -a "$fout" ] && [ -s "$fout" ]; then
     cmp -s "$fout" "$foutuser"
     if [ $? -eq 1 ]; then
       echo "WRONG"

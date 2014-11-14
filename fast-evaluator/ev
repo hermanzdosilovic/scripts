@@ -17,6 +17,12 @@ PYTHON=python
 
 # end of user settings
 
+NC="\033[0m" # no color
+R="\033[0;31m" # red
+G="\033[0;32m" # green
+Y="\033[0;33m" # yellow
+GY="\033[0;37m" # light gray
+C="\033[0;36m" # cyan
 
 # find last modified .c, .cpp, .py or .rb file
 source=$(ls -tr *.{c,cpp,rb,py} 2> /dev/null | tail -n -1)
@@ -31,7 +37,7 @@ if [ "$source" == "" ]; then
   exit
 fi
 
-printf " - $source -\n"
+echo -e "${C}- $source -$NC"
 
 # if there is no 'test' directory
 if [ ! -d "test/$name/" ]; then
@@ -61,7 +67,7 @@ fi
 
 # if compile errors occured then cannot continue
 if [ "$errors" != "" ]; then
-  echo "COMPILATION ERROR"
+  echo -e "${R}COMPILATION ERROR$NC"
   echo "$errors"
   echo
   exit
@@ -115,14 +121,14 @@ for fin in "test/$name/$name".*.in; do
   tle=false
   START=$(date +%s)
   while true; do
-    getPID=$(ps | egrep "^[:space:]*${pid}")
+    getPID=$(ps | egrep "^[[:space:]]*${pid}")
     if [ "$getPID" != "" ]; then
       END=$(date +%s)
       DIFF=$(($END - $START))
       if [ "$DIFF" -gt "1" ]; then
         kill -SIGKILL $pid
         wait $! 2> /dev/null
-        echo "TIME LIMIT EXCEEDED"
+        echo -e "${Y}TIME LIMIT EXCEEDED$NC"
         echo
         tle=true
         hasCorrect=false
@@ -143,11 +149,11 @@ for fin in "test/$name/$name".*.in; do
   if [ -a "$fout" ] && [ -s "$fout" ] && [ $ignore == false ]; then
     cmp -s "$fout" "$foutuser"
     if [ $? -eq 1 ]; then
-      echo "WRONG ANSWER"
-      echo "ev: check $foutuser for help"
+      echo -e "${R}WRONG ANSWER$NC"
+      echo -e "${GY}ev: check $foutuser for help$NC"
       hasCorrect=false
     else
-      echo "ACCEPTED"
+      echo -e "${G}ACCEPTED$NC"
       rm "$foutuser"
     fi
   fi

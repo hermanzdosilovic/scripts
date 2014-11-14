@@ -86,17 +86,29 @@ for fin in "test/$name/$name".*.in; do
     foutuser="/dev/stdout" # user output it stdout
   fi
 
+  # what file to execute
+  execute=$source
   if [ "$extension" == "c" ] || [ "$extension" == "cpp" ]; then
-    ./"$name" < "$fin" > "$foutuser" &
+    command="./"
+    execute=$name
   elif [ "$extension" == "rb" ]; then
-    cat "$fin" | $RUBY "$source" > "$foutuser" &
+    command="$RUBY "
   else
-    cat "$fin" | $PYTHON "$source" > "$foutuser" &
+    command="$PYTHON "
   fi
 
+  # read line by line and send it to executing process
+  while read line; do
+    echo $line
+  done < "$fin" | $command"$execute" > "$foutuser" &
+
   pid=$!
-  START=$(date +%s)
+
+  # wait for redirect to finish - ignoring input time
+  while ps -p $(($pid - 1)) > /dev/null; do continue; done;
+
   tle=false
+  START=$(date +%s)
   while true; do
     getPID=$(ps | egrep "^[:space:]*${pid}")
     if [ "$getPID" != "" ]; then

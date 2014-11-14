@@ -126,6 +126,9 @@ for fin in "test/$name/$name".*.in; do
         echo
         tle=true
         hasCorrect=false
+        if [ "$foutuser" != "/dev/stdout" ]; then
+          rm "$foutuser"
+        fi
         break
       fi
     else

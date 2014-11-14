@@ -79,8 +79,13 @@ for fin in "test/$name/$name".*.in; do
     continue
   fi
 
+  ignore=false
+  if [ -a "$fout" ] && [ "$(cat "$fout" | head -n 1 | cut -c 1)" == "!" ]; then
+    ignore=true
+  fi
+
   # if output file and is not empty exists user output is file
-  if [ -a "$fout" ] && [ -s "$fout" ]; then
+  if [ -a "$fout" ] && [ -s "$fout" ] && [ $ignore == false ]; then
     foutuser=${fin%.*}.user.out
   else
     foutuser="/dev/stdout" # user output it stdout
@@ -132,7 +137,7 @@ for fin in "test/$name/$name".*.in; do
     continue
   fi
 
-  if [ -a "$fout" ] && [ -s "$fout" ]; then
+  if [ -a "$fout" ] && [ -s "$fout" ] && [ $ignore == false ]; then
     cmp -s "$fout" "$foutuser"
     if [ $? -eq 1 ]; then
       echo "WRONG ANSWER"

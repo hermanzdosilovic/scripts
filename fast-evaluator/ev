@@ -17,12 +17,13 @@ PYTHON=python
 
 # end of user settings
 
-NC="\033[0m" # no color
-R="\033[0;31m" # red
-G="\033[0;32m" # green
-Y="\033[0;33m" # yellow
-GY="\033[0;37m" # light gray
-C="\033[0;36m" # cyan
+if [ "$EVC" == "true" ]; then
+  NC="\033[0m" # no color
+  R="\033[0;31m" # red
+  G="\033[0;32m" # green
+  Y="\033[0;33m" # yellow
+  GY="\033[0;37m" # light gray
+fi
 
 # find last modified .c, .cpp, .py or .rb file
 source=$(ls -tr *.{c,cpp,rb,py} 2> /dev/null | tail -n -1)
@@ -37,7 +38,7 @@ if [ "$source" == "" ]; then
   exit
 fi
 
-echo -e "${C}- $source -$NC"
+echo " - $source -"
 
 # if there is no 'test' directory
 if [ ! -d "test/$name/" ]; then

@@ -1,0 +1,43 @@
+#!/bin/bash
+
+help_link="https://github.com/hermanzdosilovic/scripts/tree/master/testcase-fit"
+if [[ $# != 6 ]]; then
+  echo "usage: tcfit <input_root> <input_extension> <output_root> <output_extension> <name> <destination>"
+  echo
+  echo "  <input_root> - root folder in which every input test case is located
+  <input_extension> - extension by which every input test case differentiates from corresponding output test case
+  <output_root> - root folder in which every output test case is located
+  <output_extension> - extension by which every output test case differentiates from corresponding input test case
+  <name> - name which you would like to give to your test cases
+  <destination> - destination folder where you would like to export your test cases"
+  echo
+  echo "For more help please visit $help_link"
+fi
+
+input_root="$1"
+input_extension="$2"
+output_root="$3"
+output_extension="$4"
+test_name="$5"
+destination_folder="$6"
+
+echo $input_extension
+if [[ $input_extension =~ \..+\. ]]; then
+  regex="*$input_extension*"
+elif [[ $input_extension =~ \..+ ]]; then
+  regex="*$input_extension"
+elif [[ $input_extension =~ .+\. ]]; then
+  regex="$input_extension*"
+else
+  echo "Unknown extension. Extension should contain '.' in argument. For example:
+
+  If some input file name is 'my_test_case.in.5' and extension which indicates that this is
+  an input file is 'in', then you should as argument for tcfit write '.in.'"
+  echo
+  echo "For more help please visit $help_link"
+  exit
+fi
+
+echo "Listing all input test cases in $input_root:"
+find $input_root -name $regex | sort
+

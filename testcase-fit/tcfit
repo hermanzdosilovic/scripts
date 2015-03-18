@@ -1,43 +1,63 @@
 #!/bin/bash
-
 help_link="https://github.com/hermanzdosilovic/scripts/tree/master/testcase-fit"
-if [[ $# != 6 ]]; then
-  echo "usage: tcfit <input_root> <input_extension> <output_root> <output_extension> <name> <destination>"
-  echo
-  echo "  <input_root> - root folder in which every input test case is located
-  <input_extension> - extension by which every input test case differentiates from corresponding output test case
-  <output_root> - root folder in which every output test case is located
-  <output_extension> - extension by which every output test case differentiates from corresponding input test case
-  <name> - name which you would like to give to your test cases
-  <destination> - destination folder where you would like to export your test cases"
-  echo
-  echo "For more help please visit $help_link"
-fi
+log_file=$HOME/.tcfit.log
 
-input_root="$1"
-input_extension="$2"
-output_root="$3"
-output_extension="$4"
-test_name="$5"
-destination_folder="$6"
+if [[ $# != 4 ]]; then
+  echo "usage: tcfit <inext> <outext> <name> <dest>"
+  echo "
+  <inext>
+    extension of input test case file
 
-echo $input_extension
-if [[ $input_extension =~ \..+\. ]]; then
-  regex="*$input_extension*"
-elif [[ $input_extension =~ \..+ ]]; then
-  regex="*$input_extension"
-elif [[ $input_extension =~ .+\. ]]; then
-  regex="$input_extension*"
-else
-  echo "Unknown extension. Extension should contain '.' in argument. For example:
+  <outext>
+    extension of output test case files
 
-  If some input file name is 'my_test_case.in.5' and extension which indicates that this is
-  an input file is 'in', then you should as argument for tcfit write '.in.'"
-  echo
-  echo "For more help please visit $help_link"
+  <name>
+    new name for test case group
+
+  <dest>
+    destination where test cases will be stored
+  "
+  echo "For more help and examples please visit $help_link"
   exit
 fi
 
-echo "Listing all input test cases in $input_root:"
-find $input_root -name $regex | sort
+inext="$1"
+outext="$2"
+name="$3"
+dest="$4"
 
+inputs=( $(find . -type f -regextype posix-egrep -regex "^\./(.*\.|.{0})$inext(\..*|.{0})$" | sort) )
+outputs=( $(find . -type f -regextype posix-egrep -regex "^\./(.*\.|.{0})$outext(\..*|.{0})$" | sort) )
+date > $log_file; echo >> $log_file
+echo "Listing all found input test cases:" >> $log_file
+printf "%s\n" "${inputs[@]}" >> $log_file; echo >> $log_file
+echo "Listing all found output test cases:" >> $log_file
+printf "%s\n" "${outputs[@]}" >> $log_file; echo >> $log_file
+
+if [[ ${#inputs[@]} != ${#outputs[@]} ]]; then
+  echo "ERROR: Number of input test cases and output test cases should be the same!" 1>&2
+  echo "ERROR: Number of input test cases and output test cases should be the same!" >> $log_file
+  echo "For more help and examples please visit $help_link" | tee -a $log_file
+  exit
+fi
+
+if [ ! -d "$dest" ]; then
+  echo "ERROR: Directory $dest not found" 1>&2
+  echo "ERROR: Directory '$dest' not found" >> $log_file
+  echo "For more help and examples please visit $help_link" | tee -a $log_file
+  exit
+fi
+
+test_dir="$dest/test/$name"
+mkdir -p "$test_dir"
+
+for (( i=0; i<${#inputs[@]}; i++ )); do
+  k="$(printf "%02d" $[$i+1])"
+  cp "${inputs[i]}" "$test_dir/$name.in.$k"
+  echo "cp ${inputs[i]} $test_dir/$name.in.$k" | tee -a $log_file
+  cp "${outputs[i]}" "$test_dir/$name.out.$k"
+  echo "cp ${outputs[i]} $test_dir/$name.out.$k" | tee -a $log_file
+  echo | tee -a $log_file
+done
+
+echo "All done. Updated $log_file"

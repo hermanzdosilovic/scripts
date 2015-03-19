@@ -26,8 +26,8 @@ outext="$2"
 name="$3"
 dest="$4"
 
-inputs=( $(find . -type f -regextype posix-egrep -regex "^\./(.*\.|.{0})$inext(\..*|.{0})$" | sort) )
-outputs=( $(find . -type f -regextype posix-egrep -regex "^\./(.*\.|.{0})$outext(\..*|.{0})$" | sort) )
+inputs=( $(find . -type f -regextype posix-egrep -regex "^.*/(.*\.|.{0})$inext(\..*|.{0})$" | sort) )
+outputs=( $(find . -type f -regextype posix-egrep -regex "^.*/(.*\.|.{0})$outext(\..*|.{0})$" | sort) )
 date > $log_file; echo >> $log_file
 echo "Listing all found input test cases:" >> $log_file
 printf "%s\n" "${inputs[@]}" >> $log_file; echo >> $log_file

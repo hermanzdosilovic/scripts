@@ -2,7 +2,7 @@
 help_link="https://github.com/hermanzdosilovic/scripts/tree/master/testcase-fit"
 log_file=$HOME/.tcfit.log
 
-if [[ $# != 4 ]]; then
+if [[ $# -lt 4 ]]; then
   echo "usage: tcfit <inext> <outext> <name> <dest>"
   echo "
   <inext>
@@ -25,6 +25,11 @@ inext="$1"
 outext="$2"
 name="$3"
 dest="$4"
+
+start="$5"
+if [[ ! $5 =~ ^[1-9][0-9]*$ ]]; then
+  start="1"
+fi
 
 inputs=( $(find . -type f -regextype posix-egrep -regex "^.*/(.*\.|.{0})$inext(\..*|.{0})$" | sort) )
 outputs=( $(find . -type f -regextype posix-egrep -regex "^.*/(.*\.|.{0})$outext(\..*|.{0})$" | sort) )
@@ -52,7 +57,8 @@ test_dir="$dest/test/$name"
 mkdir -p "$test_dir"
 
 for (( i=0; i<${#inputs[@]}; i++ )); do
-  k="$(printf "%02d" $[$i+1])"
+  k="$(printf "%02d" $[$start+1])"
+  start=$[$start+1]
   cp "${inputs[i]}" "$test_dir/$name.in.$k"
   echo "cp ${inputs[i]} $test_dir/$name.in.$k" | tee -a $log_file
   cp "${outputs[i]}" "$test_dir/$name.out.$k"

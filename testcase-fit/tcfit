@@ -57,7 +57,7 @@ test_dir="$dest/test/$name"
 mkdir -p "$test_dir"
 
 for (( i=0; i<${#inputs[@]}; i++ )); do
-  k="$(printf "%02d" $[$start+1])"
+  k="$(printf "%02d" $start)"
   start=$[$start+1]
   cp "${inputs[i]}" "$test_dir/$name.in.$k"
   echo "cp ${inputs[i]} $test_dir/$name.in.$k" | tee -a $log_file

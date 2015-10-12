@@ -4,7 +4,7 @@ Simple script for fast task evaluation on programming contests.
 
 ## Example Structure
 
-``` bash
+```
 competition_folder/
 |-- task_1/
 |	|-- 1.in
@@ -32,13 +32,13 @@ competition_folder/
 
 In `task_1` folder run following command for testing `solution_brute.c`:
 
-``` 
+``` bash
 fast-ev solution_brute.c
 ```
 
 ## Example Output
 
-``` 
+```
 - Test #1 -
 ACCEPTED
 
